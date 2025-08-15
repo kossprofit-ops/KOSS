@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Activités & Expériences – {{ BRAND_NAME }}{% endblock %}
+{% block content %}
+<section class="py-5">
+	<div class="container">
+		<h1 class="h3 fw-bold mb-4">Activités & Expériences</h1>
+		<div class="row g-4">
+			<div class="col-md-4">
+				<div class="card h-100">
+					<div class="ratio ratio-4x3 bg-light" style="background:url('https://images.unsplash.com/photo-1482192505345-5655af888cc4?q=80&w=1200') center/cover no-repeat;"></div>
+					<div class="card-body">
+						<h5 class="card-title">Visites touristiques</h5>
+						<p class="card-text">Randonnées, cascades, montagnes – découvrez la nature togolaise.</p>
+						<a href="#experiences" class="btn btn-outline-success">Réservez votre expérience</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card h-100">
+					<div class="ratio ratio-4x3 bg-light" style="background:url('https://images.unsplash.com/photo-1518998053901-5348d3961a04?q=80&w=1200') center/cover no-repeat;"></div>
+					<div class="card-body">
+						<h5 class="card-title">Activités culturelles</h5>
+						<p class="card-text">Danses, percussions africaines et ateliers d’initiation.</p>
+						<a href="#experiences" class="btn btn-outline-success">Réservez votre expérience</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="card h-100">
+					<div class="ratio ratio-4x3 bg-light" style="background:url('https://images.unsplash.com/photo-1541542684-4a9c5d0521ed?q=80&w=1200') center/cover no-repeat;"></div>
+					<div class="card-body">
+						<h5 class="card-title">Expériences culinaires</h5>
+						<p class="card-text">Gastronomie locale et européenne, saveurs authentiques.</p>
+						<a href="#experiences" class="btn btn-outline-success">Réservez votre expérience</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<h2 class="h5 fw-bold mt-5" id="experiences">Nos expériences</h2>
+		<div class="row g-4">
+			{% for e in experiences %}
+			<div class="col-md-4">
+				<div class="p-4 border rounded h-100">
+					<h5 class="mb-1">{{ e.title }}</h5>
+					<p class="small text-muted">À partir de {{ e.price_per_person_cfa }} F CFA / personne</p>
+					<p>{{ e.description }}</p>
+					<a href="/contact/" class="btn btn-success">Réserver</a>
+				</div>
+			</div>
+			{% empty %}
+			<p>Aucune expérience pour le moment.</p>
+			{% endfor %}
+		</div>
+	</div>
+</section>
+{% endblock %}

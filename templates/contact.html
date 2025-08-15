@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Nous contacter – {{ BRAND_NAME }}{% endblock %}
+{% block content %}
+<section class="py-5">
+	<div class="container">
+		<h1 class="h3 fw-bold mb-3">Nous contacter</h1>
+		<p class="mb-1">📍 Adresse : {{ BRAND_ADDRESS }}</p>
+		<p class="mb-1">📞 Togo : {{ BRAND_PHONE_TG }} | WhatsApp : {{ BRAND_WHATSAPP }}</p>
+		<p class="mb-1">📞 Suisse : {{ BRAND_PHONE_CH }}</p>
+		<p class="mb-4">📧 Emails : {{ BRAND_EMAILS.0 }} / {{ BRAND_EMAILS.1 }}</p>
+		<div class="ratio ratio-21x9 bg-light">
+			<iframe src="https://www.google.com/maps?q=Kpalim%C3%A9%2C%20Togo&output=embed" style="border:0" allowfullscreen loading="lazy"></iframe>
+		</div>
+	</div>
+</section>
+{% endblock %}
