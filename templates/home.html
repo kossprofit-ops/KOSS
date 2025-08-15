@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block title %}Accueil – {{ BRAND_NAME }}{% endblock %}
+{% block content %}
+<section class="py-5" style="background: linear-gradient(180deg, #ffffff, #f7f9f8);">
+	<div class="container text-center">
+		<h1 class="display-6 fw-bold mb-3">Bienvenue à l’hôtel Confort by Freeman – Séjournez au cœur de la nature tropicale au Togo</h1>
+		<p class="lead">Confort, élégance et authenticité vous attendent à Kpalimé.</p>
+		<a href="/chambres/" class="btn btn-lg btn-warning mt-3">Réserver maintenant</a>
+	</div>
+</section>
+
+<section class="py-4">
+	<div class="container">
+		<div class="marquee-row mb-3" data-direction="left">
+			<div class="marquee-track">
+				{% for i in '12345678' %}
+					<img src="https://images.unsplash.com/photo-1551776235-dde6d4829808?q=80&w=1200" alt="hotel" />
+					<img src="https://images.unsplash.com/photo-1560185127-6ed189bf02e3?q=80&w=1200" alt="room" />
+					<img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1200" alt="pool" />
+					<img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=1200" alt="restaurant" />
+				{% endfor %}
+			</div>
+		</div>
+		<div class="marquee-row" data-direction="right">
+			<div class="marquee-track">
+				{% for i in '12345678' %}
+					<img src="https://images.unsplash.com/photo-1584132967334-10e028bd69f7?q=80&w=1200" alt="nature" />
+					<img src="https://images.unsplash.com/photo-1496412705862-e0088f16f791?q=80&w=1200" alt="food" />
+					<img src="https://images.unsplash.com/photo-1596436889106-be35e843f974?q=80&w=1200" alt="mountain" />
+					<img src="https://images.unsplash.com/photo-1606046604972-77cc76aee944?q=80&w=1200" alt="lobby" />
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="py-5">
+	<div class="container">
+		<h2 class="h4 fw-bold mb-4">Nos chambres à la une</h2>
+		<div class="row g-4">
+			{% for room in featured_rooms %}
+			<div class="col-md-4">
+				<div class="card h-100 shadow-sm">
+					{% with first=room.images.first %}
+					{% if first %}
+					<div class="ratio ratio-4x3 bg-light" style="background:url('{{ first.image_url }}') center/cover no-repeat;"></div>
+					{% else %}
+					<div class="ratio ratio-4x3 bg-light" style="background:url('https://images.unsplash.com/photo-1551776235-dde6d4829808?q=80&w=1200') center/cover no-repeat;"></div>
+					{% endif %}
+					{% endwith %}
+					<div class="card-body">
+						<h5 class="card-title">{{ room.category.title }} – Chambre {{ room.number }}</h5>
+						<p class="card-text text-muted">À partir de {{ room.display_price }}</p>
+						<a href="/chambres/?category={{ room.category.key }}#room-{{ room.id }}" class="btn btn-outline-success">Voir & Réserver</a>
+					</div>
+				</div>
+			</div>
+			{% empty %}
+			<p>Aucune chambre en avant pour le moment.</p>
+			{% endfor %}
+		</div>
+	</div>
+</section>
+
+<section class="py-5 bg-light">
+	<div class="container">
+		<h2 class="h4 fw-bold mb-4">Ce que disent nos clients</h2>
+		<div class="row g-4">
+			{% for t in testimonials %}
+			<div class="col-md-4">
+				<div class="p-4 border rounded h-100 bg-white">
+					<div class="mb-2 text-warning">★★★★★</div>
+					<p class="mb-1">{{ t.content }}</p>
+					<p class="small text-muted mb-0">— {{ t.name }}</p>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+		<div class="text-center mt-4">
+			<a href="/chambres/" class="btn btn-success">Réserver une chambre</a>
+			<a href="/activites/" class="btn btn-outline-success ms-2">Découvrir nos expériences</a>
+			<a href="/contact/" class="btn btn-link ms-2">Nous contacter</a>
+		</div>
+	</div>
+</section>
+{% endblock %}

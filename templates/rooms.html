@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block title %}Chambres & Réservations – {{ BRAND_NAME }}{% endblock %}
+{% block content %}
+<section class="py-5">
+	<div class="container">
+		<h1 class="h3 fw-bold mb-4">Chambres & Réservations</h1>
+		<form class="row g-3 mb-4" id="search-form">
+			<div class="col-md-3">
+				<label class="form-label">Arrivée</label>
+				<input type="date" class="form-control" name="check_in" required>
+			</div>
+			<div class="col-md-3">
+				<label class="form-label">Départ</label>
+				<input type="date" class="form-control" name="check_out" required>
+			</div>
+			<div class="col-md-3">
+				<label class="form-label">Catégorie</label>
+				<select class="form-select" name="category">
+					<option value="">Toutes</option>
+					{% for c in categories %}
+					<option value="{{ c.key }}" {% if active_category == c.key %}selected{% endif %}>{{ c.title }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			<div class="col-md-3 d-flex align-items-end">
+				<button class="btn btn-success w-100" type="submit">Rechercher</button>
+			</div>
+		</form>
+
+		<div class="row g-4">
+			{% for room in rooms %}
+			<div class="col-md-4" id="room-{{ room.id }}">
+				<div class="card h-100 shadow-sm">
+					<div id="carousel-{{ room.id }}" class="carousel slide" data-bs-ride="carousel">
+						<div class="carousel-inner ratio ratio-4x3 bg-light">
+							{% for img in room.images.all %}
+							<div class="carousel-item {% if forloop.first %}active{% endif %}" style="background:url('{{ img.image_url }}') center/cover no-repeat;"></div>
+							{% empty %}
+							<div class="carousel-item active d-flex align-items-center justify-content-center bg-light">
+								<span class="text-muted">Aucune image</span>
+							</div>
+							{% endfor %}
+						</div>
+						<button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ room.id }}" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+						<button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ room.id }}" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+					</div>
+					<div class="card-body">
+						<h5 class="card-title">{{ room.category.title }} – Chambre {{ room.number }}</h5>
+						<ul class="small text-muted mb-2">
+							<li>Climatisation {% if room.has_air_conditioning %}✓{% else %}✗{% endif %}</li>
+							<li>Douche {% if room.has_hot_shower %}avec chauffe-eau{% else %}sans chauffe-eau{% endif %}</li>
+							<li>Lit king size, TV + Canal+, Wifi, Bureau</li>
+						</ul>
+						<p class="fw-semibold">Tarif: {{ room.display_price }} {% if room.breakfast_included %} – Petit-déjeuner offert{% endif %}</p>
+						<button class="btn btn-outline-success" data-room-id="{{ room.id }}" data-room-label="{{ room.category.title }} – {{ room.number }}">Réserver</button>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+
+		<section class="py-5">
+			<h2 class="h5 fw-bold mb-3">Avis clients</h2>
+			<div class="row g-4">
+				{% for t in testimonials %}
+				<div class="col-md-4">
+					<div class="p-4 border rounded h-100 bg-white">
+						<div class="mb-2 text-warning">★★★★★</div>
+						<p class="mb-1">{{ t.content }}</p>
+						<p class="small text-muted mb-0">— {{ t.name }}</p>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</section>
+	</div>
+</section>
+
+<div class="modal fade" id="bookingModal" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Réserver <span id="roomLabel"></span></h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form id="bookingForm">
+					<input type="hidden" name="room_id" id="roomId" />
+					<div class="row g-3">
+						<div class="col-md-6">
+							<label class="form-label">Arrivée</label>
+							<input type="date" class="form-control" name="check_in" required>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Départ</label>
+							<input type="date" class="form-control" name="check_out" required>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Prénom</label>
+							<input type="text" class="form-control" name="first_name" required>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Nom</label>
+							<input type="text" class="form-control" name="last_name" required>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Email</label>
+							<input type="email" class="form-control" name="email" required>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Téléphone</label>
+							<input type="text" class="form-control" name="phone" required>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">Nombre de personnes</label>
+							<input type="number" class="form-control" name="num_guests" value="1" min="1" required>
+						</div>
+						<div class="col-12">
+							<label class="form-label">Demandes spéciales</label>
+							<textarea class="form-control" name="special_requests" rows="2"></textarea>
+						</div>
+					</div>
+					<div class="text-end mt-3">
+						<button class="btn btn-success" type="submit">Confirmer la réservation</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
